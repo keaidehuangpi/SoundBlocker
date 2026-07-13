@@ -2,7 +2,7 @@
     {
         "modid": "soundblocker_v1.0.0",
         "name": "SoundBlocker",
-        "description": "",
+        "description": "Block annoying sounds for ya!",
         "version": "${version}",
         "mcversion": "${mcversion}",
         "url": "",

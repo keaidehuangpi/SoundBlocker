@@ -45,6 +45,11 @@ class SoundBlocker {
             }
 
             if (Config.editBlocked){
+
+                if (shouldGray&& Config.hideDisabledSounds){
+                    return
+                }
+
                 UMessage(
                     UTextComponent("&a&l[Blocker]&r${if (shouldGray) "§7" else "§6"} SoundName: ${name}  Pitch: ${pitch}").setClick(
                         MCClickEventAction.RUN_COMMAND,
