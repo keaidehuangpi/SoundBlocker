@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="17">
+      <module name="DumaTech.main" target="1.8" />
+      <module name="DumaTech.test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_STRING" value="-AoutRefMapFile=C:\ForgeTemplate-main\build\classes\java\main\SoundBlocker-refmap.json -AdefaultObfuscationEnv=named:intermediary -AoutMapFileNamedIntermediary=C:\ForgeTemplate-main\build\loom-cache\mixin-map-de.oceanlabs.mcp.mcp_stable.1_8_9.22-1.8.9-forge-1.8.9-11.15.1.2318-1.8.9.0.tiny -AinMapFileNamedIntermediary=C:\Users\chips\.gradle\caches\essential-loom\1.8.9\de.oceanlabs.mcp.mcp_stable.1_8_9.22-1.8.9-forge-1.8.9-11.15.1.2318-1.8.9\mappings-mixin-srg.tiny" />
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="DumaTech.test" options="-AoutRefMapFile=D:\ForgeTemplate-main\build\classes\java\test\DumaTech-refmap.json -AdefaultObfuscationEnv=named:intermediary -AoutMapFileNamedIntermediary=D:\ForgeTemplate-main\build\loom-cache\mixin-map-de.oceanlabs.mcp.mcp_stable.1_8_9.22-1.8.9-forge-1.8.9-11.15.1.2318-1.8.9.1.tiny -AinMapFileNamedIntermediary=C:\Users\chips\.gradle\caches\essential-loom\1.8.9\de.oceanlabs.mcp.mcp_stable.1_8_9.22-1.8.9-forge-1.8.9-11.15.1.2318-1.8.9\mappings-mixin-srg.tiny" />
+      <module name="SoundBlocker.test" options="-AoutRefMapFile=C:\ForgeTemplate-main\build\classes\java\test\SoundBlocker-refmap.json -AdefaultObfuscationEnv=named:intermediary -AoutMapFileNamedIntermediary=C:\ForgeTemplate-main\build\loom-cache\mixin-map-de.oceanlabs.mcp.mcp_stable.1_8_9.22-1.8.9-forge-1.8.9-11.15.1.2318-1.8.9.1.tiny -AinMapFileNamedIntermediary=C:\Users\chips\.gradle\caches\essential-loom\1.8.9\de.oceanlabs.mcp.mcp_stable.1_8_9.22-1.8.9-forge-1.8.9-11.15.1.2318-1.8.9\mappings-mixin-srg.tiny" />
+    </option>
+  </component>
+</project>
