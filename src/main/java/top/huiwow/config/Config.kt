@@ -37,7 +37,7 @@ object Config : Vigilant(File("./config/soundBlocker/config.toml")) {
 
     @Property(
         type = PropertyType.PARAGRAPH,
-        name = "Blocked Sounds",
+        name = "Blocked Sounds(Strict)",
         description = "Storages the sounds you have blocked in strict mode.Don't edit this unless you know what you're doing!!!",
         category = "Main",
     )
@@ -45,7 +45,7 @@ object Config : Vigilant(File("./config/soundBlocker/config.toml")) {
 
     @Property(
         type = PropertyType.PARAGRAPH,
-        name = "Blocked Sounds",
+        name = "Blocked Sounds(Normal)",
         description = "Storages the sounds you have blocked in normal mode.Don't edit this unless you know what you're doing!!!",
         category = "Main",
     )
@@ -61,7 +61,7 @@ object Config : Vigilant(File("./config/soundBlocker/config.toml")) {
     var blockSoundMode = 0
 
     init {
-        initialize()
+        //initialize()
 
         /*val clazz = javaClass
         registerListener(clazz.getDeclaredField("colorWithAlpha")) { color: Color ->

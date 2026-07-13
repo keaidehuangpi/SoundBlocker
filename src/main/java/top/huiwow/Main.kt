@@ -20,7 +20,6 @@ class Main {
 
     @Mod.EventHandler
     fun init(event: FMLInitializationEvent?) {
-        println("Hello world!")
         Config.initialize()
         val soundBlockerCommand = SoundBlockerCommand()
         ClientCommandHandler.instance.registerCommand(soundBlockerCommand)

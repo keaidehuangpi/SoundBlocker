@@ -1,10 +1,13 @@
 package top.huiwow.commands
 
+import gg.essential.universal.UChat
 import gg.essential.universal.UScreen
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
+import top.huiwow.Main
+import top.huiwow.SoundProperty
 import top.huiwow.config.Config
 
 class BlockSoundCommand : CommandBase() {
@@ -27,18 +30,11 @@ class BlockSoundCommand : CommandBase() {
 
     // 核心执行逻辑
     override fun processCommand(sender: ICommandSender, args: Array<out String>) {
-        /*if (args.size == 2) {
-            SoundBlocker.blockedSounds.add(SoundProperty(args[0], parseDouble(args[1]).toFloat()))
-            UChat.chat("Successfully added!")
-        } else if (args.size == 1) {
-            SoundBlocker.blockedALL.add(args[0])
-            UChat.chat("Successfully added a type of blocked sounds!")
-        } else {
+        if (args.size == 2) {
+            Main.Instance?.soundBlocker?.addOrRemove(SoundProperty(args[0], args[1].toFloat()))?.let { UChat.chat(it) }
+        }else {
             UChat.chat("Wrong usage!")
-        }*/
-
-        //window.renderScreenUntilClosed()
-       // gg.essential.universal.render.
+        }
     }
 
     @SubscribeEvent
