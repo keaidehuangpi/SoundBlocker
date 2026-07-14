@@ -1,75 +1,77 @@
 package top.huiwow
 
-import gg.essential.universal.utils.MCClickEventAction
-import gg.essential.universal.utils.MCHoverEventAction
-import gg.essential.universal.wrappers.message.UMessage
-import gg.essential.universal.wrappers.message.UTextComponent
 import net.minecraft.client.Minecraft
+import net.minecraft.event.ClickEvent
+import net.minecraft.event.HoverEvent
+import net.minecraft.util.ChatComponentText
+import net.minecraft.util.ChatStyle
+import net.minecraft.util.EnumChatFormatting
 import net.minecraftforge.client.event.sound.PlaySoundEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import top.huiwow.config.Config
 import top.huiwow.utils.GenericSetJsonUtil
 
-
 class SoundBlocker {
     var blockedSoundNames = HashSet<String>()
     var blockedSounds = HashSet<SoundProperty>()
+
     @SubscribeEvent
     fun onPacket(event: PlaySoundEvent) {
-        if (!Config.enabled){
-            return
-        }
-        if (!isPlayerInGame()){
+        if (!Config.enabled || !isPlayerInGame()) {
             return
         }
 
+        val sound = event.sound ?: return
+        val name = event.name
+        val pitch = sound.pitch
+        val receivedSound = SoundProperty(name, pitch)
+        var shouldGray = false
 
-
-        val sound = event.sound
-        if (sound != null) {
-            val name =event.name
-            val pitch = sound.pitch
-
-            val receivedSound = SoundProperty(name,pitch)
-            var shouldGray : Boolean = false
-
-            when(Config.blockSoundMode){
-                0-> if (blockedSoundNames.contains(receivedSound.name)){
-                    event.result = null
-                    shouldGray=true
-                }
-                1-> if (blockedSounds.contains(receivedSound)){
-                    event.result = null
-                    event.isCanceled= true
-                }
+        when (Config.blockSoundMode) {
+            0 -> if (blockedSoundNames.contains(receivedSound.name)) {
+                event.result = null
+                shouldGray = true
             }
 
-            if (Config.editBlocked){
-
-                if (shouldGray&& Config.hideDisabledSounds){
-                    return
-                }
-
-                UMessage(
-                    UTextComponent("&a&l[Blocker]&r${if (shouldGray) "§7" else "§6"} SoundName: ${name}  Pitch: ${pitch}").setClick(
-                        MCClickEventAction.RUN_COMMAND,
-                        "/blocksound $name $pitch"
-                    ).setHover(
-                        MCHoverEventAction.SHOW_TEXT,
-                        if (shouldGray) "§7Click to remove this sound into your block list."
-                        else "§6Click to add this sound into your block list."
-                    )
-                ).chat()
-
-
+            1 -> if (blockedSounds.contains(receivedSound)) {
+                event.result = null
+                event.isCanceled = true
             }
-
-
         }
+
+        if (!Config.editBlocked) {
+            return
+        }
+
+        if (shouldGray && Config.hideDisabledSounds) {
+            return
+        }
+
+        sendEditableSoundMessage(name, pitch, shouldGray)
     }
-    fun addOrRemove(soundProperty: SoundProperty) : String{
-        var result: String
-        if (Config.blockSoundMode==0){
+
+    private fun sendEditableSoundMessage(name: String, pitch: Float, shouldGray: Boolean) {
+        val color = if (shouldGray) EnumChatFormatting.GRAY else EnumChatFormatting.GOLD
+        val hoverText = if (shouldGray) {
+            "${EnumChatFormatting.GRAY}Click to remove this sound from your block list."
+        } else {
+            "${EnumChatFormatting.GOLD}Click to add this sound to your block list."
+        }
+
+        val message = ChatComponentText(
+            "${EnumChatFormatting.GREEN}${EnumChatFormatting.BOLD}[Blocker]" +
+                    "${EnumChatFormatting.RESET}$color SoundName: $name  Pitch: $pitch"
+        )
+        message.chatStyle = ChatStyle()
+            .setChatClickEvent(ClickEvent(ClickEvent.Action.RUN_COMMAND, "/blocksound $name $pitch"))
+            .setChatHoverEvent(HoverEvent(HoverEvent.Action.SHOW_TEXT, ChatComponentText(hoverText)))
+
+        Minecraft.getMinecraft().thePlayer.addChatMessage(message)
+    }
+
+    fun addOrRemove(soundProperty: SoundProperty): String {
+        val result: String
+        if (Config.blockSoundMode == 0) {
             if (blockedSoundNames.contains(soundProperty.name)) {
                 blockedSoundNames.remove(soundProperty.name)
                 result = "SUCCESSFULLY REMOVED!"
@@ -78,7 +80,7 @@ class SoundBlocker {
                 result = "SUCCESSFULLY ADDED!"
             }
             Config.blockedSoundsNormal = GenericSetJsonUtil.toJson(blockedSoundNames)
-        }else {
+        } else {
             if (blockedSounds.contains(soundProperty)) {
                 blockedSounds.remove(soundProperty)
                 result = "SUCCESSFULLY REMOVED!"
@@ -88,6 +90,7 @@ class SoundBlocker {
             }
             Config.blockedSoundsStrict = GenericSetJsonUtil.toJson(blockedSounds)
         }
+
         Config.markDirty()
         Config.writeData()
         return result
@@ -96,13 +99,9 @@ class SoundBlocker {
 
 fun isPlayerInGame(): Boolean {
     val mc = Minecraft.getMinecraft()
-
-
-    // 1. 确保世界对象已加载
-    // 2. 确保实体玩家对象已生成
-    // 3. 确保当前没有打开任何全屏系统菜单（如主菜单、加载界面），但允许打开背包或聊天栏
     return mc.theWorld != null && mc.thePlayer != null && (mc.currentScreen == null || !mc.currentScreen.doesGuiPauseGame())
 }
+
 data class SoundProperty(
     val name: String,
     val pitch: Float
