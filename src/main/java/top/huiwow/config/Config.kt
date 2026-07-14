@@ -77,7 +77,7 @@ object Config : Vigilant(File("./config/soundBlocker/config.toml")) {
 
         /*val clazz = javaClass
         registerListener(clazz.getDeclaredField("colorWithAlpha")) { color: Color ->
-            UChat.chat("colorWithAlpha listener activated! New color: $color")
+            Minecraft.getMinecraft().thePlayer.addChatMessage("colorWithAlpha listener activated! New color: $color")
         }*/
         Config.registerListener<String>(::blockedSoundsStrict.javaField!!, Consumer<String> {
             Main.Instance?.soundBlocker?.let { it1 -> it1.blockedSounds = GenericSetJsonUtil.fromJson(it) }

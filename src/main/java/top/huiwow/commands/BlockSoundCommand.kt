@@ -1,9 +1,10 @@
 package top.huiwow.commands
 
-import gg.essential.universal.UChat
 import gg.essential.universal.UScreen
+import net.minecraft.client.Minecraft
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
+import net.minecraft.util.ChatComponentText
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 import top.huiwow.Main
@@ -31,9 +32,10 @@ class BlockSoundCommand : CommandBase() {
     // 核心执行逻辑
     override fun processCommand(sender: ICommandSender, args: Array<out String>) {
         if (args.size == 2) {
-            Main.Instance?.soundBlocker?.addOrRemove(SoundProperty(args[0], args[1].toFloat()))?.let { UChat.chat(it) }
+            Main.Instance?.soundBlocker?.addOrRemove(SoundProperty(args[0], args[1].toFloat()))?.let { Minecraft.getMinecraft().thePlayer.addChatMessage(
+                ChatComponentText(it)) }
         }else {
-            UChat.chat("Wrong usage!")
+            Minecraft.getMinecraft().thePlayer.addChatMessage(ChatComponentText("Wrong usage!"))
         }
     }
 
